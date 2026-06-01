@@ -1,0 +1,55 @@
+{% extends 'manage/base.html' %}
+{% block title %}{% if mode == 'create' %}Log incident{% else %}Edit incident{% endif %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>{% if mode == 'create' %}Log a new incident{% else %}Edit incident #{{ incident.id }}{% endif %}</h1>
+  <a class="ghost" href="{% url 'manage-dashboard' %}">← Back</a>
+</div>
+
+<form method="post" enctype="multipart/form-data" class="card">
+  {% csrf_token %}
+
+  <h2>Incident details</h2>
+  {% if form.non_field_errors %}<div class="alert error">{{ form.non_field_errors }}</div>{% endif %}
+  <div class="field-grid">
+    {% for field in form %}
+      <div class="field {% if field.name in 'summary,public_summary,internal_notes' %}full{% endif %}">
+        <label>{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<div class="field-err">{{ field.errors|striptags }}</div>{% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  <h2>Hazard images <span class="muted">(attach several at once — optional)</span></h2>
+  {{ formset.management_form }}
+  {% if formset.non_form_errors %}<div class="alert error">{{ formset.non_form_errors }}</div>{% endif %}
+  <div class="image-formset">
+    {% for imgform in formset %}
+      <div class="image-row card-inset">
+        {{ imgform.id }}
+        {% if imgform.instance.pk and imgform.instance.thumbnail %}
+          <img class="thumb" src="{{ imgform.instance.thumbnail.url }}" alt="thumbnail" />
+        {% elif imgform.instance.pk and imgform.instance.image %}
+          <img class="thumb" src="{{ imgform.instance.image.url }}" alt="image" />
+        {% else %}
+          <div class="thumb placeholder">no image</div>
+        {% endif %}
+        <div class="image-fields">
+          <label>Image {{ imgform.image }}</label>
+          <label>Caption {{ imgform.caption }}</label>
+          {% if imgform.instance.pk %}
+            <label class="del">{{ imgform.DELETE }} Delete this image</label>
+          {% endif %}
+          {% if imgform.errors %}<div class="field-err">{{ imgform.errors }}</div>{% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="form-actions">
+    <button class="primary" type="submit">
+      {% if mode == 'create' %}Log incident{% else %}Save changes{% endif %}</button>
+  </div>
+</form>
+{% endblock %}

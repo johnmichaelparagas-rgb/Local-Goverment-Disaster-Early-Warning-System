@@ -1,0 +1,15 @@
+{% extends 'manage/base.html' %}
+{% block title %}Locked out{% endblock %}
+{% block content %}
+<div class="login-wrap">
+  <div class="card login-card">
+    <div class="login-brand"><span class="mark big">🔒</span>
+      <h1>Account temporarily locked</h1></div>
+    <div class="alert error">{{ message }}</div>
+    <p class="muted">For security, repeated failed sign-ins lock the account and IP
+      for a cool-off period. An LGU Admin can clear the lock with
+      <code>python manage.py axes_reset_username &lt;username&gt;</code>.</p>
+    <a class="primary" href="{% url 'login' %}" style="text-align:center;text-decoration:none">Back to sign in</a>
+  </div>
+</div>
+{% endblock %}

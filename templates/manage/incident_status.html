@@ -1,0 +1,28 @@
+{% extends 'manage/base.html' %}
+{% block title %}Update incident{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Incident #{{ incident.id }} — {{ incident.get_type_display }}</h1>
+  <a class="ghost" href="{% url 'manage-dashboard' %}">← Back</a>
+</div>
+
+<div class="card">
+  <p><strong>{{ incident.municipality }}</strong> · {{ incident.barangay }}</p>
+  <p class="muted">{{ incident.summary }}</p>
+  {% if incident.images.all %}
+  <div class="thumb-strip">
+    {% for img in incident.images.all %}
+      <img class="thumb" src="{% if img.thumbnail %}{{ img.thumbnail.url }}{% else %}{{ img.image.url }}{% endif %}" alt="{{ img.caption }}" />
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <h2>Update status</h2>
+  <form method="post" class="field-grid">
+    {% csrf_token %}
+    <div class="field"><label>Status</label>{{ form.status }}</div>
+    <div class="field full"><label>Internal notes</label>{{ form.internal_notes }}</div>
+    <div class="form-actions"><button class="primary" type="submit">Save</button></div>
+  </form>
+</div>
+{% endblock %}

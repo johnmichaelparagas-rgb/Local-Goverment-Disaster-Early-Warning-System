@@ -1,0 +1,165 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leyte DEWS — MDRRMO Portal</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
+    <!-- Login gate -->
+    <div id="login-view" class="login-view">
+      <form id="login-form" class="login-card" autocomplete="on">
+        <div class="brand">
+          <div class="brand-mark">⛑</div>
+          <div>
+            <h1>Leyte DEWS</h1>
+            <p>Disaster Early Warning System — MDRRMO Portal</p>
+          </div>
+        </div>
+        <label>Username
+          <input id="login-username" name="username" type="text" required autofocus /></label>
+        <label>Password
+          <input id="login-password" name="password" type="password" required /></label>
+        <button type="submit" id="login-btn">Sign in</button>
+        <p id="login-error" class="error" hidden></p>
+      </form>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="app-view" hidden>
+      <header class="topbar">
+        <div class="topbar-brand">
+          <span class="brand-mark sm">⛑</span>
+          <strong>Leyte DEWS</strong>
+          <span class="muted">MDRRMO Portal</span>
+        </div>
+        <nav class="tabs">
+          <button class="tab active" data-tab="overview">Overview</button>
+          <button class="tab" data-tab="sensors">Sensors</button>
+          <button class="tab" data-tab="incidents">Incidents</button>
+          <button class="tab" data-tab="warnings">Warnings</button>
+        </nav>
+        <div class="topbar-user">
+          <span id="user-badge" class="user-badge"></span>
+          <button id="logout-btn" class="ghost">Sign out</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <!-- Overview -->
+        <section id="tab-overview" class="tab-panel active">
+          <div class="stat-grid" id="stat-grid"></div>
+          <div class="card">
+            <h2>Highest current hazard by municipality</h2>
+            <div id="muni-status" class="muni-grid"></div>
+          </div>
+        </section>
+
+        <!-- Sensors -->
+        <section id="tab-sensors" class="tab-panel">
+          <div class="card">
+            <div class="card-head">
+              <h2>Hazard sensors</h2>
+              <div class="filters">
+                <select id="sensor-filter-muni"></select>
+                <select id="sensor-filter-hazard"></select>
+                <button id="sensor-refresh" class="ghost">Refresh</button>
+              </div>
+            </div>
+
+            <div class="bulk-bar" data-role-gate>
+              <span class="bulk-count"><span id="bulk-selected">0</span> selected</span>
+              <select id="bulk-status"></select>
+              <button id="bulk-apply" class="primary" disabled>Bulk update selected</button>
+              <span class="bulk-hint muted">or</span>
+              <button id="bulk-apply-filter" class="ghost">Apply to all filtered</button>
+            </div>
+
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="check-col"><input type="checkbox" id="sensor-check-all" /></th>
+                  <th>Sensor</th><th>Hazard</th><th>Municipality</th>
+                  <th>Reading</th><th>Status</th><th>Updated</th>
+                </tr>
+              </thead>
+              <tbody id="sensor-rows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Incidents -->
+        <section id="tab-incidents" class="tab-panel">
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-head"><h2>Incident reports</h2>
+                <button id="incident-refresh" class="ghost">Refresh</button></div>
+              <table class="data-table">
+                <thead><tr><th>Type</th><th>Location</th><th>Severity</th><th>Status</th><th>Reported</th></tr></thead>
+                <tbody id="incident-rows"></tbody>
+              </table>
+            </div>
+            <div class="card" data-role-gate>
+              <h2>Log a localized incident</h2>
+              <form id="incident-form" class="form">
+                <label>Type<select id="inc-type"></select></label>
+                <label>Municipality<select id="inc-muni"></select></label>
+                <label>Barangay<input id="inc-brgy" type="text" placeholder="Brgy. …" /></label>
+                <label>Severity
+                  <select id="inc-severity">
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                  </select></label>
+                <label class="full">Summary (internal)<textarea id="inc-summary" rows="2" required></textarea></label>
+                <label class="full">Public summary (masked feed)
+                  <textarea id="inc-public" rows="2" placeholder="Optional — defaults to summary"></textarea></label>
+                <div class="row-2">
+                  <label>Reporter name<input id="inc-reporter" type="text" /></label>
+                  <label>Reporter contact<input id="inc-contact" type="text" /></label>
+                </div>
+                <button type="submit" class="primary">Log incident</button>
+                <p class="form-msg" id="inc-msg" hidden></p>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- Warnings -->
+        <section id="tab-warnings" class="tab-panel">
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-head"><h2>Early warnings</h2>
+                <button id="warning-refresh" class="ghost">Refresh</button></div>
+              <div id="warning-list" class="warning-list"></div>
+            </div>
+            <div class="card" data-role-gate>
+              <h2>Broadcast early warning</h2>
+              <form id="warning-form" class="form">
+                <label class="full">Title<input id="wn-title" type="text" required /></label>
+                <label>Alert level
+                  <select id="wn-level">
+                    <option value="information">Information</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="orange" selected>Orange</option>
+                    <option value="red">Red</option>
+                  </select></label>
+                <label>Hazard type<select id="wn-hazard"></select></label>
+                <label class="full">Message<textarea id="wn-message" rows="3" required></textarea></label>
+                <label class="full">Affected municipalities (Ctrl/Cmd-click to multi-select)
+                  <select id="wn-munis" multiple size="6"></select></label>
+                <button type="submit" class="primary">Broadcast</button>
+                <p class="form-msg" id="wn-msg" hidden></p>
+              </form>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" hidden></div>
+    <script src="{% static 'js/app.js' %}"></script>
+  </body>
+</html>

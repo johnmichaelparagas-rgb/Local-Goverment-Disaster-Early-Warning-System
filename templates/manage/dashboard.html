@@ -1,0 +1,61 @@
+{% extends 'manage/base.html' %}
+{% block title %}Incident dashboard{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Incident dashboard</h1>
+  {% if can_create %}<a class="primary" href="{% url 'manage-incident-create' %}">+ Log incident</a>{% endif %}
+</div>
+
+<form method="get" class="card filter-bar">
+  <div class="filter-grid">
+    <label>From {{ filter.form.start }}</label>
+    <label>To {{ filter.form.end }}</label>
+    <label>Status {{ filter.form.status }}</label>
+    <label>Municipality {{ filter.form.municipality }}</label>
+    <label>Type {{ filter.form.type }}</label>
+  </div>
+  <div class="filter-actions">
+    <button class="primary" type="submit">Apply filters</button>
+    <a class="ghost" href="{% url 'manage-dashboard' %}">Reset</a>
+  </div>
+</form>
+
+<div class="card">
+  <table class="data-table">
+    <thead>
+      <tr><th>#</th><th>Type</th><th>Location</th><th>Severity</th>
+        <th>Status</th><th>Images</th><th>Reported</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for incident in page_obj %}
+      <tr>
+        <td>{{ incident.id }}</td>
+        <td>{{ incident.get_type_display }}</td>
+        <td>{{ incident.municipality }}<br /><small class="muted">{{ incident.barangay }}</small></td>
+        <td><span class="sev sev-{{ incident.severity }}">{{ incident.get_severity_display }}</span></td>
+        <td><span class="badge status-{{ incident.status }}">{{ incident.get_status_display }}</span></td>
+        <td>{{ incident.images.count }}</td>
+        <td class="muted">{{ incident.reported_at|date:"M j, H:i" }}</td>
+        <td><a class="link" href="{% url 'manage-incident-edit' incident.id %}">
+          {% if can_edit %}Edit{% else %}View{% endif %}</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="8" class="muted">No incidents match the current filters.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if page_obj.paginator.num_pages > 1 %}
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a class="ghost" href="?{{ querystring }}&page={{ page_obj.previous_page_number }}">‹ Prev</a>
+    {% endif %}
+    <span class="muted">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+      ({{ page_obj.paginator.count }} total)</span>
+    {% if page_obj.has_next %}
+      <a class="ghost" href="?{{ querystring }}&page={{ page_obj.next_page_number }}">Next ›</a>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

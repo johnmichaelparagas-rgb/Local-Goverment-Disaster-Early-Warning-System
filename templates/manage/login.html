@@ -1,0 +1,23 @@
+{% extends 'manage/base.html' %}
+{% block title %}Sign in{% endblock %}
+{% block content %}
+<div class="login-wrap">
+  <form method="post" class="card login-card">
+    {% csrf_token %}
+    <div class="login-brand"><span class="mark big">⛑</span>
+      <h1>LGU Incident Management</h1>
+      <p class="muted">Sign in with your MDRRMO account</p></div>
+
+    {% if form.errors or form.non_field_errors %}
+      <div class="alert error">Invalid credentials, or your account is locked after repeated failures.</div>
+    {% endif %}
+
+    <label>Username
+      <input type="text" name="username" autofocus required
+             value="{{ form.username.value|default:'' }}" /></label>
+    <label>Password<input type="password" name="password" required /></label>
+    <input type="hidden" name="next" value="{{ next }}" />
+    <button class="primary" type="submit">Sign in</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,323 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+      content="Leyte DEWS — the Municipal Disaster Risk Reduction & Management Office portal
+               for real-time hazard monitoring, incident reporting, and early-warning broadcasts." />
+    <title>Leyte DEWS — Disaster Early Warning System | MDRRMO Portal</title>
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}" />
+  </head>
+  <body>
+    <!-- ───────────────────────── Navigation ───────────────────────── -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-brand" href="#top">
+          <span class="brand-mark">⛑</span>
+          <span class="nav-brand-text">
+            <strong>Leyte DEWS</strong>
+            <small>Disaster Early Warning System</small>
+          </span>
+        </a>
+        <nav class="nav-links">
+          <a href="#features">Capabilities</a>
+          <a href="#how">How it works</a>
+          <a href="#roles">Access &amp; roles</a>
+          <a href="#status">Live status</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="btn btn-ghost" href="/login/">Staff sign in</a>
+          <a class="btn btn-primary" href="/dashboard/">Open dashboard →</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- ───────────────────────── Hero ───────────────────────── -->
+    <section class="hero" id="top">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <span class="eyebrow">Municipal Disaster Risk Reduction &amp; Management Office · Leyte</span>
+        <h1>Early warnings that reach<br />your community in time.</h1>
+        <p class="lead">
+          A unified operations portal for monitoring hazard sensors, logging field incidents,
+          and broadcasting official early warnings across Leyte's municipalities — built for
+          MDRRMO responders, trusted by the public.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary btn-lg" href="/dashboard/">Launch monitoring dashboard</a>
+          <a class="btn btn-ghost btn-lg" href="#status">View live situation</a>
+        </div>
+
+        <!-- Live public situation banner (graceful fallback if API is unavailable) -->
+        <div class="live-banner" id="live-banner" data-state="loading">
+          <span class="live-dot"></span>
+          <span class="live-label">Current hazard status —</span>
+          <span class="live-value" id="live-status">Checking…</span>
+          <span class="live-sep">·</span>
+          <span id="live-warnings">— active warnings</span>
+          <span class="live-updated muted" id="live-updated"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── Stats strip ───────────────────────── -->
+    <section class="strip">
+      <div class="strip-inner">
+        <div class="strip-item"><div class="strip-num" id="stat-sensors">—</div><div class="strip-lbl">Hazard sensors monitored</div></div>
+        <div class="strip-item"><div class="strip-num" id="stat-warnings">—</div><div class="strip-lbl">Active early warnings</div></div>
+        <div class="strip-item"><div class="strip-num" id="stat-incidents">—</div><div class="strip-lbl">Open public incidents</div></div>
+        <div class="strip-item"><div class="strip-num">24/7</div><div class="strip-lbl">Operations coverage</div></div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── Features ───────────────────────── -->
+    <section class="section" id="features">
+      <div class="section-head">
+        <span class="eyebrow">Capabilities</span>
+        <h2>One portal for the full warning chain</h2>
+        <p>From sensor reading to public broadcast — every step of disaster response in a single, role-secured system.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature">
+          <div class="feature-icon">📡</div>
+          <h3>Real-time hazard monitoring</h3>
+          <p>Track flood, landslide, and storm-surge sensors across municipalities with live readings and per-area status roll-ups.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">📝</div>
+          <h3>Field incident reporting</h3>
+          <p>Log localized incidents with multiple hazard photos in a single submit, complete with severity and location detail.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">📣</div>
+          <h3>Early-warning broadcasts</h3>
+          <p>Issue colour-coded alerts (Information → Yellow → Orange → Red) targeted to the exact affected municipalities.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">⚡</div>
+          <h3>Bulk status operations</h3>
+          <p>Raise or lower hazard status across many sensors at once — by selection, municipality, or hazard type.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">🔒</div>
+          <h3>Role-based access control</h3>
+          <p>LGU Admin, Dispatcher, and Public Viewer roles, with brute-force protection and audited actions.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">🛡️</div>
+          <h3>Privacy-safe public feed</h3>
+          <p>Dispatcher contacts and reporter details are automatically redacted from public APIs and citizen views.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── How it works ───────────────────────── -->
+    <section class="section section-alt" id="how">
+      <div class="section-head">
+        <span class="eyebrow">How it works</span>
+        <h2>Sense. Decide. Warn.</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Sense</h3>
+          <p>Field sensors and responders feed live hazard readings and incident reports into the portal.</p>
+        </div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Decide</h3>
+          <p>Dispatchers and LGU admins assess the situation on a filterable, real-time operations dashboard.</p>
+        </div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Warn</h3>
+          <p>Official early warnings are broadcast to affected municipalities and the public situation feed.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── Roles ───────────────────────── -->
+    <section class="section" id="roles">
+      <div class="section-head">
+        <span class="eyebrow">Access &amp; roles</span>
+        <h2>The right access for every responder</h2>
+      </div>
+      <div class="role-grid">
+        <article class="role-card">
+          <h3>LGU Admin</h3>
+          <p class="role-sub">Full operational control</p>
+          <ul>
+            <li>Create &amp; manage incidents and images</li>
+            <li>Broadcast and cancel warnings</li>
+            <li>Manage users &amp; sensors</li>
+          </ul>
+        </article>
+        <article class="role-card highlight">
+          <h3>Dispatcher</h3>
+          <p class="role-sub">Day-to-day response</p>
+          <ul>
+            <li>Update incident status</li>
+            <li>Monitor sensors &amp; warnings</li>
+            <li>Bulk hazard-status updates</li>
+          </ul>
+        </article>
+        <article class="role-card">
+          <h3>Public Viewer</h3>
+          <p class="role-sub">Read-only, privacy-safe</p>
+          <ul>
+            <li>View public situation feed</li>
+            <li>See active warnings</li>
+            <li>No access to private contacts</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── Live status ───────────────────────── -->
+    <section class="section section-alt" id="status">
+      <div class="section-head">
+        <span class="eyebrow">Live status</span>
+        <h2>Current situation across Leyte</h2>
+        <p>A public, privacy-safe snapshot pulled directly from the operations portal.</p>
+      </div>
+      <div class="status-panel">
+        <div class="status-overview" id="status-overview">
+          <div class="status-badge" id="status-badge">Loading…</div>
+          <div class="status-meta">
+            <div><span class="muted">Active warnings</span><strong id="status-warnings">—</strong></div>
+            <div><span class="muted">Public incidents</span><strong id="status-incidents">—</strong></div>
+            <div><span class="muted">Last updated</span><strong id="status-updated">—</strong></div>
+          </div>
+        </div>
+        <div class="warning-feed" id="warning-feed">
+          <p class="muted feed-empty">No active warnings right now. Stay prepared.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── CTA ───────────────────────── -->
+    <section class="cta">
+      <div class="cta-inner">
+        <h2>Ready to coordinate the response?</h2>
+        <p>Sign in to the monitoring dashboard or the management console to get started.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary btn-lg" href="/dashboard/">Open dashboard</a>
+          <a class="btn btn-ghost btn-lg" href="/login/">Management console</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── Footer ───────────────────────── -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="brand-mark sm">⛑</span>
+          <div>
+            <strong>Leyte DEWS</strong>
+            <p class="muted">Municipal Disaster Risk Reduction &amp; Management Office</p>
+          </div>
+        </div>
+        <nav class="footer-links">
+          <a href="/dashboard/">Dashboard</a>
+          <a href="/login/">Staff sign in</a>
+          <a href="/manage/">Management console</a>
+          <a href="/api/health">System health</a>
+        </nav>
+        <p class="footer-copy muted">© <span id="year"></span> MDRRMO Leyte · Disaster Early Warning System</p>
+      </div>
+    </footer>
+
+    <script>
+      // Year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Pretty labels for the hazard status scale.
+      const STATUS_LABEL = {
+        normal: 'Normal', advisory: 'Advisory', watch: 'Watch',
+        warning: 'Warning', critical: 'Critical',
+      };
+
+      function relativeTime(iso) {
+        if (!iso) return '';
+        const then = new Date(iso), now = new Date();
+        const diff = Math.round((now - then) / 1000);
+        if (diff < 60) return 'just now';
+        if (diff < 3600) return Math.floor(diff / 60) + ' min ago';
+        if (diff < 86400) return Math.floor(diff / 3600) + ' h ago';
+        return then.toLocaleDateString();
+      }
+
+      // Pull the public, privacy-safe situation snapshot to populate live UI.
+      async function loadSituation() {
+        try {
+          const res = await fetch('/api/public/situation');
+          if (!res.ok) throw new Error('status ' + res.status);
+          const data = await res.json();
+
+          const status = data.overall_hazard_status || 'normal';
+          const label = STATUS_LABEL[status] || status;
+          const warnings = data.active_warnings ?? (data.warnings || []).length;
+          const incidents = (data.incidents || []).length;
+          const sensors = (data.sensors || []).length;
+
+          // Hero live banner
+          const banner = document.getElementById('live-banner');
+          banner.dataset.state = status;
+          document.getElementById('live-status').textContent = label;
+          document.getElementById('live-warnings').textContent =
+            warnings + (warnings === 1 ? ' active warning' : ' active warnings');
+          document.getElementById('live-updated').textContent = 'updated ' + relativeTime(data.updated_at);
+
+          // Stats strip
+          document.getElementById('stat-sensors').textContent = sensors;
+          document.getElementById('stat-warnings').textContent = warnings;
+          document.getElementById('stat-incidents').textContent = incidents;
+
+          // Status panel
+          const badge = document.getElementById('status-badge');
+          badge.textContent = label;
+          badge.dataset.level = status;
+          document.getElementById('status-warnings').textContent = warnings;
+          document.getElementById('status-incidents').textContent = incidents;
+          document.getElementById('status-updated').textContent = relativeTime(data.updated_at);
+
+          // Warning feed
+          const feed = document.getElementById('warning-feed');
+          const items = data.warnings || [];
+          if (items.length) {
+            feed.innerHTML = items.map(w => {
+              const lvl = (w.level || 'information').toLowerCase();
+              const areas = Array.isArray(w.municipalities) ? w.municipalities.join(', ') : (w.municipality || '');
+              return `<div class="wfeed-item ${lvl}">
+                  <span class="wfeed-lvl ${lvl}">${lvl}</span>
+                  <div class="wfeed-body">
+                    <strong>${w.title || 'Early warning'}</strong>
+                    <p>${w.message || ''}</p>
+                    ${areas ? `<span class="muted wfeed-area">📍 ${areas}</span>` : ''}
+                  </div>
+                </div>`;
+            }).join('');
+          }
+        } catch (err) {
+          // Graceful fallback — the marketing site still stands on its own.
+          const banner = document.getElementById('live-banner');
+          banner.dataset.state = 'offline';
+          document.getElementById('live-status').textContent = 'Unavailable';
+          document.getElementById('live-warnings').textContent = 'live feed offline';
+          document.getElementById('status-badge').textContent = 'Offline';
+          ['stat-sensors', 'stat-warnings', 'stat-incidents'].forEach(id => {
+            document.getElementById(id).textContent = '—';
+          });
+        }
+      }
+
+      loadSituation();
+      // Refresh the live snapshot every 60s while the page is open.
+      setInterval(loadSituation, 60000);
+    </script>
+  </body>
+</html>
