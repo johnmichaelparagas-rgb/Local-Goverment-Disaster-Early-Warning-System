@@ -14,6 +14,10 @@ python manage.py migrate
 # Create role Groups + permissions (idempotent).
 python manage.py setup_roles
 
+# Clear any brute-force lockouts on each deploy. Render's free tier has no
+# Shell, so this is how a locked-out account gets unlocked: just redeploy.
+python manage.py axes_reset
+
 # Seed demo data (accounts, sensors, incidents, a warning) only when asked,
 # so production deploys don't repeatedly reseed. Set SEED_DEMO=1 to enable.
 if [ "${SEED_DEMO:-0}" = "1" ]; then
