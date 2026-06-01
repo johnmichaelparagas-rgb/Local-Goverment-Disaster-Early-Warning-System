@@ -187,7 +187,9 @@ PUBLIC_API_KEYS = [
 ]
 
 # --- django-axes (active brute-force defense) ------------------------------
-AXES_ENABLED = True
+# Disabled in local development (DEBUG) so repeated test logins don't lock you
+# out; always on in production. Override explicitly with DJANGO_AXES_ENABLED.
+AXES_ENABLED = os.environ.get('DJANGO_AXES_ENABLED', '0' if DEBUG else '1') == '1'
 # Lock after this many failed attempts...
 AXES_FAILURE_LIMIT = int(os.environ.get('AXES_FAILURE_LIMIT', 5))
 # ...counted per (username + IP) combination.
