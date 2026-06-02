@@ -21,6 +21,10 @@ urlpatterns = [
     # Public landing page (marketing / live public situation snapshot).
     path('', TemplateView.as_view(template_name='index.html'), name='home'),
 
+    # SEO: robots + sitemap (rendered with the request for absolute URLs).
+    path('robots.txt', TemplateView.as_view(template_name='robots.txt', content_type='text/plain'), name='robots'),
+    path('sitemap.xml', TemplateView.as_view(template_name='sitemap.xml', content_type='application/xml'), name='sitemap'),
+
     # JWT single-page monitoring dashboard (auth handled client-side).
     path('dashboard/', TemplateView.as_view(template_name='dashboard.html'), name='dashboard'),
 ]
