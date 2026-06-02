@@ -262,3 +262,16 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 480px) {
   .nav-actions .btn-ghost { display: none; }
 }
+
+/* ───── Entrance animation (hero) ───── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero .eyebrow { animation: fadeUp .6s ease both; }
+  .hero h1       { animation: fadeUp .6s ease .08s both; }
+  .hero .lead    { animation: fadeUp .6s ease .16s both; }
+  .hero-cta      { animation: fadeUp .6s ease .24s both; }
+  .live-banner   { animation: fadeUp .6s ease .32s both; }
+}
