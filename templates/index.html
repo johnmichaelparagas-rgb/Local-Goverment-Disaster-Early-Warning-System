@@ -7,14 +7,29 @@
     <meta name="description"
       content="Leyte DEWS — the Municipal Disaster Risk Reduction & Management Office portal
                for real-time hazard monitoring, incident reporting, and early-warning broadcasts." />
+    <meta name="theme-color" content="#0f172a" />
     <title>Leyte DEWS — Disaster Early Warning System | MDRRMO Portal</title>
+
+    <!-- Social sharing / Open Graph (absolute URLs derived from the request) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Leyte DEWS" />
+    <meta property="og:title" content="Leyte DEWS — Disaster Early Warning System" />
+    <meta property="og:description"
+      content="Real-time hazard monitoring, incident reporting, and official early-warning broadcasts for Leyte's municipalities." />
+    <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}/" />
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'favicon.svg' %}" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Leyte DEWS — Disaster Early Warning System" />
+    <meta name="twitter:description"
+      content="Real-time hazard monitoring, incident reporting, and official early-warning broadcasts for Leyte's municipalities." />
+
     <link rel="icon" href="{% static 'favicon.svg' %}" type="image/svg+xml" />
     <link rel="stylesheet" href="{% static 'css/landing.css' %}" />
   </head>
   <body>
     <!-- ───────────────────────── Navigation ───────────────────────── -->
     <header class="nav">
-      <div class="nav-inner">
+      <div class="nav-inner" id="nav-inner">
         <a class="nav-brand" href="#top">
           <span class="brand-mark"><svg class="mark-ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 16 L51 47 H13 Z" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round"/><rect x="29.5" y="28" width="5" height="11" rx="2.5" fill="#fff"/><circle cx="32" cy="44" r="2.8" fill="#fff"/></svg></span>
           <span class="nav-brand-text">
@@ -22,15 +37,21 @@
             <small>Disaster Early Warning System</small>
           </span>
         </a>
-        <nav class="nav-links">
-          <a href="#features">Capabilities</a>
-          <a href="#how">How it works</a>
-          <a href="#roles">Access &amp; roles</a>
-          <a href="#status">Live status</a>
-        </nav>
-        <div class="nav-actions">
-          <a class="btn btn-ghost" href="/login/">Staff sign in</a>
-          <a class="btn btn-primary" href="/dashboard/">Open dashboard →</a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu"
+                aria-controls="nav-collapse" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="nav-collapse" id="nav-collapse">
+          <nav class="nav-links">
+            <a href="#features">Capabilities</a>
+            <a href="#how">How it works</a>
+            <a href="#roles">Access &amp; roles</a>
+            <a href="#status">Live status</a>
+          </nav>
+          <div class="nav-actions">
+            <a class="btn btn-ghost" href="/login/">Staff sign in</a>
+            <a class="btn btn-primary" href="/dashboard/">Open dashboard →</a>
+          </div>
         </div>
       </div>
     </header>
@@ -235,6 +256,24 @@
     <script>
       // Year
       document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Mobile navigation toggle.
+      (function mobileNav() {
+        const inner = document.getElementById('nav-inner');
+        const toggle = document.getElementById('nav-toggle');
+        const collapse = document.getElementById('nav-collapse');
+        if (!inner || !toggle) return;
+        const setOpen = (open) => {
+          inner.classList.toggle('open', open);
+          toggle.setAttribute('aria-expanded', String(open));
+        };
+        toggle.addEventListener('click', () => setOpen(!inner.classList.contains('open')));
+        // Close after tapping a link, or when clicking outside the menu.
+        collapse.addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
+        document.addEventListener('click', (e) => {
+          if (inner.classList.contains('open') && !inner.contains(e.target)) setOpen(false);
+        });
+      })();
 
       // Pretty labels for the hazard status scale.
       const STATUS_LABEL = {

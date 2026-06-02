@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Something went wrong — Leyte DEWS</title>
+  <style>
+    :root { --bg:#0f172a; --panel:#1e293b; --line:#334155; --text:#e2e8f0; --muted:#94a3b8; --brand:#0ea5e9; --brand2:#0284c7; }
+    * { box-sizing: border-box; }
+    body { margin:0; min-height:100vh; display:grid; place-items:center; padding:24px;
+      font-family:"Segoe UI",system-ui,-apple-system,sans-serif; color:var(--text);
+      background:radial-gradient(900px 480px at 50% -10%, #15314a, var(--bg)); }
+    .card { width:480px; max-width:100%; text-align:center; background:var(--panel);
+      border:1px solid var(--line); border-radius:16px; padding:40px 32px;
+      box-shadow:0 24px 60px rgba(0,0,0,.45); }
+    .mark { width:60px; height:60px; margin:0 auto 18px; border-radius:16px; display:grid; place-items:center;
+      background:linear-gradient(135deg,var(--brand),var(--brand2)); box-shadow:0 10px 26px rgba(14,165,233,.4); }
+    .mark svg { width:58%; height:58%; }
+    .code { font-size:64px; font-weight:800; letter-spacing:-.03em; line-height:1;
+      background:linear-gradient(135deg,var(--brand),#7dd3fc); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    h1 { font-size:22px; margin:14px 0 8px; }
+    p { color:var(--muted); margin:0 0 24px; }
+    .btn { display:inline-block; padding:12px 22px; border-radius:10px; font-weight:600; text-decoration:none;
+      color:#fff; background:linear-gradient(135deg,var(--brand),var(--brand2)); box-shadow:0 8px 22px rgba(14,165,233,.3); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="mark">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 16 L51 47 H13 Z" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round"/><rect x="29.5" y="28" width="5" height="11" rx="2.5" fill="#fff"/><circle cx="32" cy="44" r="2.8" fill="#fff"/></svg>
+    </div>
+    <div class="code">500</div>
+    <h1>Something went wrong</h1>
+    <p>We hit an unexpected error. Our team has been notified — please try again in a moment.</p>
+    <a class="btn" href="/">← Back to Leyte DEWS</a>
+  </div>
+</body>
+</html>
